@@ -2,13 +2,13 @@ import requests
 import csv
 import json
 from itertools import islice
-URL = "http://127.0.0.1:8000/api/students/"
+URL = "https://attandancemanagerapi.herokuapp.com/api/students/"
 with open('MOCK_DATA.csv') as f:
     reader = csv.reader(f)
     for row in islice(reader, 1, None):
         print(row)
         headers = {
-            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjA5NTU2MzIxLCJqdGkiOiJiMjhlY2JiN2M5MmE0NjRiYjMxN2MxYWRmNzc1OGQzNyIsInVzZXJfaWQiOjJ9.qL4v53GXmM-LuTYNwOAGZNV_g469EkCEn8tXXT882Mk',
+            'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQ4MjA2MzEyLCJqdGkiOiJkYTA3ZjdiZWQ4Njk0NTg3ODI3NWRiODdmZWRhODBiNyIsInVzZXJfaWQiOjJ9.lYqxlq9D8tPUxatmiDWwAJNSyjDbQy5no9ZfRy2PK18',
             'Content-Type': 'application/json'
         }
         data = {
