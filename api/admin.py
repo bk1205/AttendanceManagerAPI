@@ -3,6 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from api.models import Student, Class, Attendance
 
+# The admin.py file is used to display your models in the Django admin panel. You can also customize your admin panel.
 
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):

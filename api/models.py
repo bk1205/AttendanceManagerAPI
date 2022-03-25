@@ -9,7 +9,7 @@ attStatus = (
     ('present', 'Present'), ('absent', 'Absent'), ('leave', 'Leave')
 )
 
-class Class(models.Model):
+class Class(models.Model): #A TABLE WITH 1 FIELDS/COLUMN AS DEFINED BELOW
     cId = models.IntegerField(default=1, validators=[MaxValueValidator(12), MinValueValidator(1)],
                                primary_key=True)
     # instructer = models.CharField(max_length=50)
@@ -17,7 +17,7 @@ class Class(models.Model):
         return str(self.cId)
 
 
-class Student(models.Model):
+class Student(models.Model): #A TABLE WITH 4 FIELDS AS DEFINED BELOW
     id = models.AutoField(primary_key=True)
     rollNo = models.IntegerField()
     name = models.CharField(max_length=50)
@@ -25,19 +25,20 @@ class Student(models.Model):
     # city = models.CharField(max_length=100)
 
     class Meta:
-        unique_together = ('rollNo', 'cId',)
+        unique_together = ('rollNo', 'cId',) #Roll No of two students in same class cannot be same and similarly
+        # class of two students with same roll no cannot be same
         db_table = 'students'
 
     def __str__(self):
         return self.name
 
 
-class Attendance(models.Model):
+class Attendance(models.Model): #A TABLE WITH 5 FIELDS AS DEFINED BELOW
     attStatus = (
         ('present', 'Present'), ('absent', 'Absent'), ('leave', 'Leave')
     )
     id = models.AutoField(primary_key=True)
-    student = models.ForeignKey(to=Student, on_delete=models.CASCADE, related_name='attendance')
+    student = models.ForeignKey(to=Student, on_delete=models.CASCADE, related_name='attendance') #ManytoOne Relation
     attendance_date = models.DateField(default=datetime.now())
     status = models.CharField(choices=attStatus, max_length=10, null=True, blank=True)
     #

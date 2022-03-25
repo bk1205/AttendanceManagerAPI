@@ -26,18 +26,20 @@ class StudentAPI(APIView):
         id = pk
         if id is not None:
             stu = Student.objects.get(id=id)
-            serializer = StudentModelSerializer(stu)
+            serializer = StudentModelSerializer(stu) #It convert complex data such as querysets and model instances
+            # into python native datatype so that it can easily be rendered to JSON/XML etc.
             return Response(serializer.data)
         if cId is not None:
             students = Student.objects.filter(cId=cId)
-            serializer = StudentModelSerializer(students, many=True)
+            serializer = StudentModelSerializer(students, many=True) #many=True is to tell serializer that there are
+            # multiple objects so that it can serialize each object seperately.
             return Response(serializer.data)
         stu = Student.objects.all()
         serializer = StudentModelSerializer(stu, many=True)
         return Response(serializer.data)
 
     def post(self, request, pk=None):
-        serializer = StudentModelSerializer(data=request.data)
+        serializer = StudentModelSerializer(data=request.data) #Python native datatype to complex model datatype
         if serializer.is_valid():
             serializer.save()
             return Response({'msg': 'Data created'}, status=status.HTTP_201_CREATED)
@@ -47,6 +49,7 @@ class StudentAPI(APIView):
         id = pk
         stu = Student.objects.get(pk=id)
         serializer = StudentModelSerializer(stu, data=request.data)
+        #It will completly update stu object passed as first argument with given data passed as second argument
         if serializer.is_valid():
             serializer.save()
             return Response({'msg': 'Complete Data updated'})
@@ -70,11 +73,21 @@ class StudentAPI(APIView):
 
 class AttendanceAPI(APIView):
     def get(self, request, cId):
+        #SAMPLE ENTRY THAT WE GET
+        # {
+        #     "id": 1955,
+        #     "student_name": "Leopold Sworder",
+        #     "attendance_date": "2021-05-26",
+        #     "status": "present"
+        # },
+        #student__cId is accesing foreign key 's partivular field
         attendances = Attendance.objects.filter(student__cId=cId)
+        #getting data from database table as complex data type converting to python native datatype
         serializer = AttendanceSerializer(attendances, many=True)
         return Response(serializer.data)
 
     def post(self, request, cId):
+        # obtain students of class cId
         students = Student.objects.filter(cId=cId)
         print(request.data)
         date = parse_date(request.data['date'])
@@ -82,7 +95,8 @@ class AttendanceAPI(APIView):
         attendances = []
         for stu in students:
             att = Attendance.objects.get_or_create(student=stu, attendance_date=date)
-            print(att)
+            print(att) #
+            # output: (<Attendance: Attendance object (1805)>, False) :: here False reperesent that no new entry created
             serializer = AttendanceSerializer(att[0])
             print(serializer.data)
             attendances.append(serializer.data)
