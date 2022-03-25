@@ -84,7 +84,6 @@ WSGI_APPLICATION = 'DRF.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-postgres://wublldwahdvfwg:9ad2931379b9dc8ed39f3c9e251f361a4ccee21b0800cf1805b8d8b60ac3508d@ec2-3-225-213-67.compute-1.amazonaws.com:5432/d9dcbm3goe4msm
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
